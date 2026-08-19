@@ -91,6 +91,49 @@ class Solution:
 #### Java
 
 ```java
+
+class Solution {
+    public List<Integer> largestDivisibleSubset(int[] a) {
+        int n=a.length;
+        int lis[]=new int[n];
+        int tracker[]=new int[n];
+        Arrays.fill(tracker,-1);
+        lis[0]=1;
+        Arrays.sort(a);
+        for(int i=1;i<n;i++)
+        {
+            lis[i]=1;
+            for(int j=0;j<i;j++)
+            {
+                if((a[i] % a[j])==0 && lis[i]<(lis[j]+1))
+                {
+                    lis[i]=lis[j]+1;
+                    tracker[i]=j;
+                }
+            }
+        }
+        int mx=0;
+        int mxi=0;
+        for(int i=0;i<n;i++)
+        {
+            if(lis[i]>mx)
+            {
+                mx=lis[i];
+                mxi=i;
+            }
+        }
+        List<Integer> res=new ArrayList<>();
+        while(mxi!=-1)
+        {
+            res.add(a[mxi]);
+            mxi=tracker[mxi];
+        }
+        Collections.reverse(res);
+        return res;
+    }
+}
+```
+```java
 class Solution {
     public List<Integer> largestDivisibleSubset(int[] nums) {
         Arrays.sort(nums);
